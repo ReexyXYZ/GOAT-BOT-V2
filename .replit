@@ -1,0 +1,53 @@
+entrypoint = "index.js"
+modules = ["python-3.11", "nodejs-20", "postgresql-16"]
+hidden = [".config", "package-lock.json"]
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
+
+[nix]
+channel = "stable-24_11"
+packages = ["cairo", "giflib", "libjpeg", "libuuid", "pango", "unzip"]
+
+[deployment]
+run = ["node", "index.js"]
+deploymentTarget = "autoscale"
+ignorePorts = false
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "Goatbot"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "GoatBot"
+
+[[workflows.workflow]]
+name = "GoatBot"
+author = "GoatBot"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm start"
+
+[[ports]]
+localPort = 7909
+externalPort = 7754
+
+[[ports]]
+localPort = 8754
+externalPort = 80
+
+[[ports]]
+localPort = 9875
+externalPort = 9876
+
+[agent]
+expertMode = true
